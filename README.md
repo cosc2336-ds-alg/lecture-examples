@@ -65,10 +65,70 @@ $ ./bin/u01-1
 though of course the `make all` target will only recompile out
 of date examples, so you can perform make all if you are modifying
 and exploring one of the code examples to understand it better.
-You can get a complete list of build targets using
+You can get a complete list of build targets and other make
+targets by doing:
 
 ```bash
 $ make help
+ List of all valid targets in this project:
+ ---------------------------------------------------------
+ all          : By default generate all lecture
+                code example executables.  Executables
+                are compiled into the bin directory.
+
+ u01-1        : Unit 01-1 User Defined Functions examples
+
+ u01-2        : Unit 01-2 User Defined Data Types examples
+
+ u01-3        : Unit 01-3 C/C++ Arrays examples
+
+ u02-1        : Unit 02-1 C/C++ Structures
+
+ u02-2        : Unit 02-2 C++ Classes
+
+ u03-1        : Unit 03-1 Pointer Variables
+
+ u03-2        : Unit 03-2 Dynamic Memory
+
+ u04-1        : Unit 04-1 Recursion
+
+ u05-1        : Unit 05-1 Searching
+
+ u05-2        : Unit 05-2 Sorting
+
+ u06-1        : Unit 06-1 Analysis of Algorithms
+
+ u07-1        : Unit 07-1 Inheritance and Composition
+
+ u07-2        : Unit 07-2 Overloading
+
+ u07-3        : Unit 07-3 Templates
+
+ u09-1        : Unit 09-1 Linked List Fundamentals
+
+ u10-1        : Unit 10-1 Implementaiton of Stacks
+
+ u10-2        : Unit 10-2 Applications of Stacks
+
+ u11-1        : Unit 11-1 Implementation of Queues
+
+ u11-2        : Unit 11-2 Applications of Queues
+
+ u12-1        : Unit 12-1 Binary Tree Properties
+
+ u13-1        : Unit 13-1 Hashing and Dictionaries
+
+ u14-1        : Unit 14-1 STL Standard Template Library
+
+ readme       : Create repository pdf documentation from
+                README.md project markdown file.
+
+ format       : Run the code formatter/beautifier by hand if needed
+
+ clean        : Remove auto-generated files for a completely
+                clean rebuild
+
+ help         : Get all build targets supported by this build.
 ```
 
 
