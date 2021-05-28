@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+VERSION=0.3
+BASE_NAME=assg-base-${VERSION}
+URL_BASE=https://github.com/cosc2336-ds-alg/assg-base/archive/refs/tags
+URL=${URL_BASE}/v${VERSION}.tar.gz
+ASSG_DIR=${PWD}
+
+# if the base doesn't already exist, then download, 
+# extract and configure it
+if [ ! -d "../${BASE_NAME}" ]
+then
+    # perform all tasks in parent directory, we expect the base
+    # project to be in the parent of all assignments
+    echo ""
+    echo "Fetching COSC 2336 assg-base from github repository"
+    echo "---------------------------------------------------"
+    echo ""
+    cd ..
+    wget -c ${URL} -O ${BASE_NAME}.tar.gz
+    tar xvfz ${BASE_NAME}.tar.gz
+    #mv ${BASE_NAME} assg-base
+    
+    # build the catch2 object file with main function precompiled to
+    # link with assignment unit tests
+    echo ""
+    echo "Building catch2 precompiled object file with main routine for unit tests"
+    echo "------------------------------------------------------------------------"
+    echo ""
+    cd ${BASE_NAME}
+    make clean
+    make
+fi
+
+# link the .vscode IDE config files so will be used
+# by VSCode if opening up this repo as VSCode project
+cd ${ASSG_DIR}
+if [ ! -L ".vscode" ]
+then
+    echo ""
+    echo "Link base .vscode configuration to this project so will be used by VSCode IDE"
+    echo "-----------------------------------------------------------------------------"
+    echo ""
+    ln -s ../${BASE_NAME}/.vscode .vscode
+fi
+
+# link the clang-format formatter config files so will be used
+# by VSCode when running the default code formatter
+if [ ! -L ".clang-format" ]
+then
+    echo ""
+    echo "Link base clang-format configuration to this project so will be used by VSCode IDE"
+    echo "----------------------------------------------------------------------------------"
+    echo ""
+    ln -s ../${BASE_NAME}/config/clang-format.cfg .clang-format
+fi
+
+# make sure the project build uses the version we set up here
+sed -i "s/VERSION=.*/VERSION=${VERSION}/" Makefile
+
+# finish configuration
+echo ""
+echo "Configuration of COSC `basename ${ASSG_DIR}` complete"
+echo ""

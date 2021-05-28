@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "test successfully builds",
+      "setup": "./configure",
+      "run": "make",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 100
+    }
+  ]
+}
