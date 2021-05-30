@@ -15,3 +15,5 @@ latex/*
 .vscode/*
 .vscode
 .clang-format
+obj/*
+bin/*
