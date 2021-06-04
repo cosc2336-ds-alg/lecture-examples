@@ -1,9 +1,8 @@
 /**
  * @author Derek Harter
- * @cwid   123 45 678
  * @class  COSC 2336, Spring 2019
  * @ide    Visual Studio Community 2017
- * @date   January 14, 2019
+ * @date   June 4, 2021
  * @assg   User Defined Simple Data Types Video
  *
  * @description Examples for discussion/review about
@@ -25,16 +24,19 @@ using namespace std;
 // const int SATURDAY = 6;
 
 // alternatively define day of week as enumerated type
-enum DayOfWeek
+enum class DayOfWeek
 {
-  SUNDAY,
-  MONDAY,
-  TUESDAY,
-  WEDNESDAY,
-  THURSDAY,
-  FRIDAY,
-  SATURDAY,
+  Sunday,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
 };
+
+const DayOfWeek DayOfWeekIterator[] = {DayOfWeek::Sunday, DayOfWeek::Monday, DayOfWeek::Tuesday, DayOfWeek::Wednesday, DayOfWeek::Thursday,
+  DayOfWeek::Friday, DayOfWeek::Saturday};
 
 /** display day of week
  * Example of converting day of week using the global named constants.
@@ -53,25 +55,25 @@ string convertDayOfWeekToString(DayOfWeek dayOfWeek)
 
   switch (dayOfWeek)
   {
-  case SUNDAY:
+  case DayOfWeek::Sunday:
     dayOfWeekString = "Sunday";
     break;
-  case MONDAY:
+  case DayOfWeek::Monday:
     dayOfWeekString = "Monday";
     break;
-  case TUESDAY:
+  case DayOfWeek::Tuesday:
     dayOfWeekString = "Tuesday";
     break;
-  case WEDNESDAY:
+  case DayOfWeek::Wednesday:
     dayOfWeekString = "Wednesday";
     break;
-  case THURSDAY:
+  case DayOfWeek::Thursday:
     dayOfWeekString = "Thursday";
     break;
-  case FRIDAY:
+  case DayOfWeek::Friday:
     dayOfWeekString = "Friday";
     break;
-  case SATURDAY:
+  case DayOfWeek::Saturday:
     dayOfWeekString = "Saturday";
     break;
   }
@@ -95,6 +97,25 @@ string convertDayOfWeekToString(DayOfWeek dayOfWeek)
  */
 int main(int argc, char** argv)
 {
+  // Typedef allows us to add a new "type" specifier to the language
+  // NOTE: typedef is really just an alias of an existing type, not
+  // really adding a new type yet to the language.
+  // Common examples
+  typedef unsigned long int ulint;
+  unsigned long int var1 = 42;
+  ulint var2 = 42;
+
+  cout << "example of typedef" << endl << "    var1 = " << var1 << endl << "    var2 = " << var2 << endl;
+
+  // maybe a more useful example, maybe we use an int
+  // to hold an id, like our Campus Wide ID.  Makes code
+  // more readable and easier to modify underlying type if
+  // needed in future
+  // new syntax using for defining a type alias, but these are mostly equivalent
+  using Cwid = int;
+  Cwid studentId = 123456;
+  cout << "Student id: " << studentId << endl;
+
   // Enumerated types are useful to represent a finite set
   // of discrete values.  We can do this ourself, for example
   // by using named constants
@@ -104,7 +125,7 @@ int main(int argc, char** argv)
   // expecting one of these constants?  2) similarly this is less
   // readable, if we have a function that takes day of the week,
   // we have to define parameter as int.
-  DayOfWeek dayOfWeek = MONDAY;
+  DayOfWeek dayOfWeek = DayOfWeek::Monday;
   cout << "The day of the week is " << convertDayOfWeekToString(dayOfWeek) << endl;
 
   // dayOfWeek = 7; // nothing prevents us from assigning a bad value
@@ -120,15 +141,27 @@ int main(int argc, char** argv)
   // kludgy and has yucky and verbose syntax.  You can add or increment
   // enumerated types directly, so you have to implicitly convert to an int
   // change it, then static_cast back to the enumerated type.
-  for (dayOfWeek = SUNDAY; dayOfWeek <= SATURDAY; dayOfWeek = static_cast<DayOfWeek>(dayOfWeek + 1))
+  /*
+  for (dayOfWeek = DayOfWeek::Sunday; dayOfWeek <= DayOfWeek::Saturday; dayOfWeek = static_cast<DayOfWeek>(dayOfWeek + 1))
   {
     cout << "iterating through the week, today is " << dayOfWeek << " " << convertDayOfWeekToString(dayOfWeek) << endl;
+  }
+  */
+  for (auto dayOfWeek : DayOfWeekIterator)
+  {
+    cout << "iterating through the week, today is " << convertDayOfWeekToString(dayOfWeek) << endl;
   }
 
   //---------------------------------------------------
 
   // Namespaces are (an attempt) to prevent global declarations of names of functions
   // classes and constants from interfering with one another.
+
+  // note DayOfWeek is similar to a namespace, but not quite, can't do the following
+  // using namespace DayOfWeek;
+  // DayOfWeek today = Monday;
+  // in C++ the following was added to do this
+  // using enum DayOfWeek;
 
   // The std names space is the C++ standard library namespace.  Things like iostream
   // and many others are defined to be in the std namespace.  Without the
@@ -143,7 +176,7 @@ int main(int argc, char** argv)
 
   //----------------------------------------------------
 
-  // The string is not really one of the fundamental types of the C++ language, it
+  // The string is not really one of the fundamental types of the C language, it
   // is an example of a complex data type.  Strings are really classes (chapter 10)
   // that define an abstract data type for creating and manipulating textual data.
   // You should usually use the high level string type, rather than the old style
