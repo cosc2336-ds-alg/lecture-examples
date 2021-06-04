@@ -62,7 +62,7 @@ $(BIN_DIR)/u01-2 : $(OBJ_DIR)/u01-2-UserDefinedDataTypes.o | $(BIN_DIR)
 
 ## u01-3        : Unit 01-3 C/C++ Arrays examples
 ##
-$(BIN_DIR)/u01-3 : $(OBJ_DIR)/u01-2-UserDefinedDataTypes.o | $(BIN_DIR)
+$(BIN_DIR)/u01-3 : $(OBJ_DIR)/u01-3-Arrays.o | $(BIN_DIR)
 	$(GCC) $(GCC_FLAGS) $< -o $@
 
 

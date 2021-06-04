@@ -10,8 +10,10 @@
  *   accessing and using simple 1-dim arrays of values in C/C++
  */
 #include <cmath>
+#include <cstring> // old C language array of character string processing, don't use
 #include <iostream>
-#include <string>
+#include <string> // new c++ string object, always use these for this class
+
 
 using namespace std;
 
