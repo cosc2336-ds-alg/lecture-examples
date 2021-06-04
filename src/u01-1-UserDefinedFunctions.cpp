@@ -87,7 +87,6 @@ int myArray[5] = {00, 10, 20, 30, 40};
  */
 int& returnReferenceExample()
 {
-
   return myArray[3];
 }
 
@@ -128,7 +127,7 @@ int main(int argc, char** argv)
   double area = abs(negValue) * pow(radius, 2.0);
   area = 3.14159 * radius * radius;
 
-  cout << "The area of a circule of radius " << radius << "is " << area << endl;
+  cout << "The area of a circule of radius " << radius << " is " << area << endl;
 
   // one of the most fundamental skills in learning to program
   // is breaking down a big problem into smaller problems, so
@@ -217,7 +216,7 @@ int main(int argc, char** argv)
   myInteger = returnReferenceExample();
   cout << "myIteger is now: " << myInteger << endl;
 
-  myInteger = 100;
+  myInteger = 50;
   cout << "myInteger is now: " << myInteger << endl;
   cout << "myArray[3] is now: " << myArray[3] << endl;
 
