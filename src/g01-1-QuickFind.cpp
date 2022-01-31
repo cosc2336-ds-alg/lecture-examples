@@ -64,6 +64,26 @@ void initializeSetIds(int N, int id[])
   }
 }
 
+/** @brief initialize set sizes
+ *
+ * Initialize given array of set sizes.  Initially all sets
+ * are of size 1.
+ *
+ * @param N The number of nodes in the connectivity set.
+ * @param size An integer array of set sizes to be initialized.
+ *
+ * @returns Nothing is returned explicitly, by the array
+ *   values of the size parameter will be initialized upon
+ *   return.
+ */
+void initializeSetSizes(int N, int size[])
+{
+  for (int i = 0; i < N; i++)
+  {
+    size[i] = 1;
+  }
+}
+
 /** @brief quick find
  *
  * Implementation of quick find connectivity algorithm, example
@@ -220,6 +240,175 @@ void quickUnion(string fileName)
   cout << endl;
 }
 
+/** @brief weighted quick union
+ *
+ * Implementation of weighted quick union connectivity algorithm,
+ * example program 1.3 from Sedgewick Algorithms in C++.
+ *
+ * This algorithm determins the connectivity of a set of nodes.
+ * This function expects a file name as input, which is a file that
+ * can be opened and that contains pairs of connected nodes in the
+ * graph.
+ *
+ * This algorithm modifies the quick union to more intelligently
+ * joint sets to minimize path length of resulting tree.
+ *
+ * @param fileName The name of the file with the connection
+ *   pairs used as input for the connectivity algorithm.  We
+ *   open this file for reading, and fail immediately if we do
+ *   not successfully open the file.  We expect the first line
+ *   to contain N, the number of nodes in the connectivity
+ *   graph we will be processing.
+ */
+void weightedQuickUnion(string fileName)
+{
+  // open input file for use by algorithm. First line of file is
+  // total number of nodes. Dynamically allocate array of ids and
+  // initialize them.
+  ifstream file = openFileOrExit(fileName);
+  int N;
+  file >> N;
+  int* id = new int[N];
+  initializeSetIds(N, id);
+  int* size = new int[N];
+  initializeSetSizes(N, size);
+  
+  // process each line of input file, reading in a connected pair of nodes,
+  // that we identify as p and q
+  cout << "weightedQuickUnion" << endl;
+  int p;
+  int q;
+  while (file >> p >> q)
+  {
+    // search tree that node p is in to find root of the current tree set
+    int i;
+    for (i = p; i != id[i]; i = id[i])
+    {
+      // do nothing, the loop terminates when i == id[i] which
+      // indicates we are at the root of this tree
+    }
+
+    // do same search for root of tree of node q
+    int j;
+    for (j = q; j != id[j]; j = id[j])
+    {
+      // do nothing, the loop terminates when j == id[j] which
+      // indicates we are at the root of this tree
+    }
+
+    // we found the roots of the set trees for nodes p and q, if the
+    // root is the same for both nodes, then these nodes are already connected
+    if (i == j)
+    {
+      continue;
+    }
+
+    // modification from simple quick union here.  Attach/combine trees
+    // based on size to minimize path length
+    if (size[i] < size[j])
+    {
+      id[i] = j;
+      size[j] += size[i];
+    }
+    else
+    {
+      id[j] = i;
+      size[i] += size[j];
+    }
+    
+    // and output this pair, indicating a new connection found and processed
+    cout << p << "-" << q << endl;
+  }
+
+  cout << endl;
+}
+
+/** @brief weighted quick union w/ path compression
+ *
+ * Implementation of weighted quick union connectivity algorithm where
+ * we add in path compression, example program 1.4 from Sedgewick
+ * Algorithms in C++.
+ *
+ * This algorithm determins the connectivity of a set of nodes.
+ * This function expects a file name as input, which is a file that
+ * can be opened and that contains pairs of connected nodes in the
+ * graph.
+ *
+ * This algorithm performs path compression when searching for the set.
+ * This speeds up the weighted quick union by reducing path lengths
+ * for the set find operations, making most set finds complexity comparable
+ * to the original quick find.
+ *
+ * @param fileName The name of the file with the connection
+ *   pairs used as input for the connectivity algorithm.  We
+ *   open this file for reading, and fail immediately if we do
+ *   not successfully open the file.  We expect the first line
+ *   to contain N, the number of nodes in the connectivity
+ *   graph we will be processing.
+ */
+void weightedQuickUnionPathCompression(string fileName)
+{
+  // open input file for use by algorithm. First line of file is
+  // total number of nodes. Dynamically allocate array of ids and
+  // initialize them.
+  ifstream file = openFileOrExit(fileName);
+  int N;
+  file >> N;
+  int* id = new int[N];
+  initializeSetIds(N, id);
+  int* size = new int[N];
+  initializeSetSizes(N, size);
+  
+  // process each line of input file, reading in a connected pair of nodes,
+  // that we identify as p and q
+  cout << "weightedQuickUnionPathCompression" << endl;
+  int p;
+  int q;
+  while (file >> p >> q)
+  {
+    // search tree that node p is in to find root of the current tree set
+    int i;
+    for (i = p; i != id[i]; i = id[i])
+    {
+      // while searching, compress paths.  Make this set point to root
+      id[i] = id[id[i]];
+    }
+
+    // do same search for root of tree of node q
+    int j;
+    for (j = q; j != id[j]; j = id[j])
+    {
+      // again compress paths while searching on this node
+      id[j] = id[id[j]];
+    }
+
+    // we found the roots of the set trees for nodes p and q, if the
+    // root is the same for both nodes, then these nodes are already connected
+    if (i == j)
+    {
+      continue;
+    }
+
+    // modification from simple quick union here.  Attach/combine trees
+    // based on size to minimize path length
+    if (size[i] < size[j])
+    {
+      id[i] = j;
+      size[j] += size[i];
+    }
+    else
+    {
+      id[j] = i;
+      size[i] += size[j];
+    }
+    
+    // and output this pair, indicating a new connection found and processed
+    cout << p << "-" << q << endl;
+  }
+
+  cout << endl;
+}
+
 /** main
  * The main entry point for this program.  Execution of this program
  * will begin with this main function.
@@ -240,7 +429,9 @@ int main(int argc, char** argv)
 
   quickFind(connectivityFileName);
   quickUnion(connectivityFileName);
-
+  weightedQuickUnion(connectivityFileName);
+  weightedQuickUnionPathCompression(connectivityFileName);
+  
   // return 0 to indicate successful program completion
   return 0;
 }
