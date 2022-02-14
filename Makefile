@@ -34,7 +34,7 @@ BIN_DIR := bin
 # all lecture example target executables
 example_targets = u01-1 u01-2 u01-3 u02-1 u02-2 u03-1 u03-2 u04-1 u05-1 u05-2 \
 	u06-1 u07-1 u07-2 u07-3 u09-1 u10-1 u10-2 u11-1 u11-2 u12-1 u13-1 u14-1 \
-	g01-1 g02-1 g02-2 g03-1 g03-2 g03-3 g03-6
+	g01-1 g02-1 g02-2 g03-1 g03-2 g03-3 g03-6 g03-9 g03-10 g03-11
 example_targets := $(patsubst %, $(BIN_DIR)/%, $(example_targets))
 
 # pdf files for example repository description documentation
@@ -181,6 +181,15 @@ $(BIN_DIR)/g03-3 : $(OBJ_DIR)/g03-3-point-struct.o | $(BIN_DIR)
 	$(GCC) $(GCC_FLAGS_NOERROR) $^ -o $@
 
 $(BIN_DIR)/g03-6 : $(OBJ_DIR)/g03-6-sieve-of-eratosthenes.o | $(BIN_DIR)
+	$(GCC) $(GCC_FLAGS_NOERROR) $^ -o $@
+
+$(BIN_DIR)/g03-9 : $(OBJ_DIR)/g03-9-josephus-election.o | $(BIN_DIR)
+	$(GCC) $(GCC_FLAGS_NOERROR) $^ -o $@
+
+$(BIN_DIR)/g03-10 : $(OBJ_DIR)/g03-10-list-reversal.o | $(BIN_DIR)
+	$(GCC) $(GCC_FLAGS_NOERROR) $^ -o $@
+
+$(BIN_DIR)/g03-11 : $(OBJ_DIR)/g03-11-list-insertion-sort.o | $(BIN_DIR)
 	$(GCC) $(GCC_FLAGS_NOERROR) $^ -o $@
 
 
